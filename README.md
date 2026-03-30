@@ -39,7 +39,7 @@ Included in the project:
 - seeders in `database/seeders`
 - SQL dump in `database/task_api_dump.sql`
 
-## Run Locally
+## How to Run Locally
 
 1. Install dependencies:
 
@@ -84,19 +84,55 @@ php artisan serve
 
 Open `http://127.0.0.1:8000` in the browser.
 
-## Main Endpoints
+## Example API Requests
 
-- `POST /api/tasks`
-- `GET /api/tasks`
-- `PATCH /api/tasks/{id}/status`
-- `DELETE /api/tasks/{id}`
-- `GET /api/tasks/report?date=YYYY-MM-DD`
+Create a task:
 
-## Deployment
+```bash
+curl -X POST http://127.0.0.1:8000/api/tasks \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d "{\"title\":\"Submit assignment\",\"due_date\":\"2026-04-01\",\"priority\":\"high\"}"
+```
 
-The project is prepared for Render.
+List tasks:
 
-Files added for deployment:
+```bash
+curl http://127.0.0.1:8000/api/tasks
+```
+
+Filter by status:
+
+```bash
+curl http://127.0.0.1:8000/api/tasks?status=pending
+```
+
+Update task status:
+
+```bash
+curl -X PATCH http://127.0.0.1:8000/api/tasks/1/status \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d "{\"status\":\"in_progress\"}"
+```
+
+Delete a task:
+
+```bash
+curl -X DELETE http://127.0.0.1:8000/api/tasks/1
+```
+
+Get the daily report:
+
+```bash
+curl "http://127.0.0.1:8000/api/tasks/report?date=2026-04-01"
+```
+
+## How to Deploy on Render
+
+The project is prepared for Render using a Laravel web service and a MySQL service.
+
+Deployment files included:
 
 - `Dockerfile`
 - `render.yaml`
@@ -104,18 +140,22 @@ Files added for deployment:
 - `render/start.sh`
 - `docker/mysql/Dockerfile`
 
-Render creates:
+Steps:
 
-- `task-api` as the Laravel web service
-- `task-api-mysql` as the MySQL service
-
-During deployment, the app runs migrations and seeders automatically before startup.
-
-If Render asks for `APP_KEY`, generate one locally with:
+1. Push the project to GitHub.
+2. In Render, create a new `Blueprint`.
+3. Select this repository and deploy from the `main` branch.
+4. When prompted, set `APP_KEY`.
+5. Render creates:
+   - `task-api` for Laravel
+   - `task-api-mysql` for MySQL
+6. Before the web service starts, Render runs:
 
 ```bash
-php artisan key:generate --show
+php artisan migrate --force --seed
 ```
+
+7. Open the generated Render URL to test the project online.
 
 ## Interface
 
