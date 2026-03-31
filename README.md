@@ -168,7 +168,7 @@ php artisan serve --host=0.0.0.0 --port=$PORT
 9. Redeploy the Laravel service after saving the variables.
 10. Generate a public domain for the Laravel service from the `Networking` section in Settings and use port `8000`.
 11. At this point the Railway URL may already open in the browser, but the API is not fully ready until the database is initialized.
-12. If Railway does not show a shell in the web dashboard, install the Railway CLI on your own computer, not inside the deployed app. On Windows, `npm` only works if Node.js is already installed and available in PowerShell. If `npm` is not recognized, install Node.js first from the official Node.js website, then run:
+12. Install the Railway CLI on your own computer, not inside the deployed app. On Windows, `npm` only works if Node.js is already installed and available in PowerShell. If `npm` is not recognized, install Node.js first from the official Node.js website, Make sure to add it to path. Then run:
 
 ```powershell
 npm install -g @railway/cli
@@ -189,7 +189,8 @@ railway link
 railway ssh -s <laravel-service-name>
 ```
 
-14. Run these commands inside the deployed Laravel service:
+14. Run these commands from your computer after connecting with `railway ssh`:
+
 
 ```bash
 php artisan config:clear
