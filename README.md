@@ -128,34 +128,39 @@ Get the daily report:
 curl "http://127.0.0.1:8000/api/tasks/report?date=2026-04-01"
 ```
 
-## How to Deploy on Render
+## How to Deploy on Railway
 
-The project is prepared for Render using a Laravel web service and a MySQL service.
-
-Deployment files included:
-
-- `Dockerfile`
-- `render.yaml`
-- `render/predeploy.sh`
-- `render/start.sh`
-- `docker/mysql/Dockerfile`
+This project is kept simple for the assignment. Railway can deploy the Laravel app directly from GitHub, and Railway MySQL provides the database service.
 
 Steps:
 
 1. Push the project to GitHub.
-2. In Render, create a new `Blueprint`.
-3. Select this repository and deploy from the `main` branch.
-4. When prompted, set `APP_KEY`.
-5. Render creates:
-   - `task-api` for Laravel
-   - `task-api-mysql` for MySQL
-6. Before the web service starts, Render runs:
+2. In Railway, create a new project and choose `Deploy from GitHub repo`.
+3. Select this repository and let Railway create the Laravel service.
+4. Add a `MySQL` service to the same Railway project.
+5. In the Laravel service variables, set:
+
+```env
+APP_KEY=your-generated-app-key
+APP_ENV=production
+APP_DEBUG=false
+LOG_CHANNEL=stderr
+```
+
+6. Do not import the local `DB_*` values from `.env.example` into Railway. The app is already configured to use Railway's MySQL variables:
+   - `MYSQLHOST`
+   - `MYSQLPORT`
+   - `MYSQLDATABASE`
+   - `MYSQLUSER`
+   - `MYSQLPASSWORD`
+7. Generate a public domain for the Laravel service from the `Networking` section.
+8. After the first deploy, run the migration and seeder command in Railway:
 
 ```bash
 php artisan migrate --force --seed
 ```
 
-7. Open the generated Render URL to test the project online.
+9. Open the generated Railway URL and test the interface online.
 
 ## Interface
 
