@@ -144,23 +144,35 @@ Steps:
 APP_KEY=your-generated-app-key
 APP_ENV=production
 APP_DEBUG=false
+APP_NAME="Task API"
 LOG_CHANNEL=stderr
+PORT=8000
+DB_CONNECTION=mysql
 ```
 
-6. Railway MySQL provides the database variables automatically, and the app is already configured to use:
-   - `MYSQLHOST`
-   - `MYSQLPORT`
-   - `MYSQLDATABASE`
-   - `MYSQLUSER`
-   - `MYSQLPASSWORD`
-7. Generate a public domain for the Laravel service from the `Networking` section.
-8. After the first deploy, run the migration and seeder command in Railway:
+6. In the same Laravel service, add these database variables using Railway references from the MySQL service:
+   - `DB_HOST` -> MySQL `MYSQLHOST`
+   - `DB_PORT` -> MySQL `MYSQLPORT`
+   - `DB_DATABASE` -> MySQL `MYSQLDATABASE`
+   - `DB_USERNAME` -> MySQL `MYSQLUSER`
+   - `DB_PASSWORD` -> MySQL `MYSQLPASSWORD`
+7. In the Laravel service settings, set the start command to:
 
 ```bash
+php artisan serve --host=0.0.0.0 --port=$PORT
+```
+
+8. Leave the pre-deploy command empty.
+9. Redeploy the Laravel service after saving the variables.
+10. Generate a public domain for the Laravel service from the `Networking` section in Settings and use port `8000`.
+11. After the Laravel service is deployed, run these commands in the Railway shell:
+
+```bash
+php artisan config:clear
 php artisan migrate --force --seed
 ```
 
-9. Open the generated Railway URL and test the interface online.
+12. Open the generated Railway URL and test the interface online.
 
 ## Interface
 
