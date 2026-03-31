@@ -16,7 +16,7 @@ CREATE TABLE tasks (
 );
 
 INSERT INTO tasks (title, due_date, priority, status, created_at, updated_at) VALUES
-('Review assignment brief', '2026-03-30', 'high', 'in_progress', NOW(), NOW()),
-('Design task API routes', '2026-03-31', 'high', 'pending', NOW(), NOW()),
-('Write feature tests', '2026-04-01', 'medium', 'pending', NOW(), NOW()),
-('Draft deployment notes', '2026-04-02', 'low', 'done', NOW(), NOW());
+('Review assignment brief', DATE_ADD(CURDATE(), INTERVAL 0 DAY), 'high', 'in_progress', NOW(), NOW()),
+('Design task API routes', DATE_ADD(CURDATE(), INTERVAL 1 DAY), 'high', 'pending', NOW(), NOW()),
+('Write feature tests', DATE_ADD(CURDATE(), INTERVAL 2 DAY), 'medium', 'pending', NOW(), NOW()),
+('Draft deployment notes', DATE_ADD(CURDATE(), INTERVAL 3 DAY), 'low', 'done', NOW(), NOW());

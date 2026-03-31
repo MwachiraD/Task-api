@@ -11,7 +11,7 @@ The project provides a Task Management API with a simple browser interface. The 
 - Filter tasks by status
 - Update task status from `pending` to `in_progress` to `done`
 - Delete only completed tasks
-- Show a daily task report by priority and status
+- Show a daily task report by priority and status based on `due_date`
 
 ## Business Rules Handled
 
@@ -38,6 +38,8 @@ Included in the project:
 - migrations in `database/migrations`
 - seeders in `database/seeders`
 - SQL dump in `database/task_api_dump.sql`
+
+The SQL dump uses `CURDATE()` so the sample task due dates stay valid when it is imported later.
 
 ## How to Run Locally
 
@@ -70,7 +72,7 @@ DB_PASSWORD=
 php artisan key:generate
 ```
 
-5. Run migrations and seeders:
+5. Make sure your local MySQL server is running, then run migrations and seeders:
 
 ```bash
 php artisan migrate --seed
@@ -166,21 +168,35 @@ php artisan serve --host=0.0.0.0 --port=$PORT
 9. Redeploy the Laravel service after saving the variables.
 10. Generate a public domain for the Laravel service from the `Networking` section in Settings and use port `8000`.
 11. At this point the Railway URL may already open in the browser, but the API is not fully ready until the database is initialized.
-12. If Railway does not show a shell in the web dashboard, install the Railway CLI, log in, and connect to the Laravel service:
+12. If Railway does not show a shell in the web dashboard, install the Railway CLI on your own computer, not inside the deployed app. On Windows, `npm` only works if Node.js is already installed and available in PowerShell. If `npm` is not recognized, install Node.js first from the official Node.js website, then run:
+
+```powershell
+npm install -g @railway/cli
+```
+
+or
+
+```powershell
+scoop install railway
+```
+
+Railway's CLI docs note that the `npm` installation method works on macOS, Linux, and Windows and requires Node.js 16 or higher.
+13. Log in from your computer and connect to the deployed Laravel service:
 
 ```bash
+railway login
 railway link
 railway ssh -s <laravel-service-name>
 ```
 
-13. Run these commands inside the deployed Laravel service:
+14. Run these commands inside the deployed Laravel service:
 
 ```bash
 php artisan config:clear
 php artisan migrate --force --seed
 ```
 
-14. Reload the generated Railway URL and test the interface and API online.
+15. Reload the generated Railway URL and test the interface and API online.
 
 ## Interface
 
