@@ -147,7 +147,7 @@ APP_DEBUG=false
 LOG_CHANNEL=stderr
 ```
 
-6. Do not import the local `DB_*` values from `.env.example` into Railway. The app is already configured to use Railway's MySQL variables:
+6. Railway MySQL provides the database variables automatically, and the app is already configured to use:
    - `MYSQLHOST`
    - `MYSQLPORT`
    - `MYSQLDATABASE`
