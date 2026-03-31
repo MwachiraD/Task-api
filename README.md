@@ -165,14 +165,22 @@ php artisan serve --host=0.0.0.0 --port=$PORT
 8. Leave the pre-deploy command empty.
 9. Redeploy the Laravel service after saving the variables.
 10. Generate a public domain for the Laravel service from the `Networking` section in Settings and use port `8000`.
-11. After the Laravel service is deployed, run these commands in the Railway shell:
+11. If you do not already have it, install the Railway CLI and log in to your account.
+12. Connect to the deployed Laravel service using the Railway CLI:
+
+```bash
+railway link
+railway ssh -s <laravel-service-name>
+```
+
+13. Run these commands inside the deployed Laravel service:
 
 ```bash
 php artisan config:clear
 php artisan migrate --force --seed
 ```
 
-12. Open the generated Railway URL and test the interface online.
+14. Open the generated Railway URL and test the interface online.
 
 ## Interface
 
